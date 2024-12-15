@@ -1,7 +1,7 @@
-export default function Home() {
+export default function AboutKr() {
   return (
     <div className="flex justify-center items-center h-screen">
-      <span>hi</span>
+      <span>AboutKr</span>
     </div>
   );
 }

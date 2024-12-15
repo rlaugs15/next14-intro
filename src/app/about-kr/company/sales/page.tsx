@@ -1,7 +1,7 @@
-export default function Home() {
+export default function Sales() {
   return (
     <div className="flex justify-center items-center h-screen">
-      <span>hi</span>
+      <span>Sales</span>
     </div>
   );
 }

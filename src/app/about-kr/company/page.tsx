@@ -1,7 +1,7 @@
-export default function Home() {
+export default function Company() {
   return (
     <div className="flex justify-center items-center h-screen">
-      <span>hi</span>
+      <span>Company</span>
     </div>
   );
 }
