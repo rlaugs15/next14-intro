@@ -1,4 +1,10 @@
-export default function RootLayout({
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "AoutKrLayout",
+};
+
+export default function AoutKrLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
