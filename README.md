@@ -1,4 +1,4 @@
-# 라우팅
+# #2 라우팅
 
 ## #2.1 Routes 정의
 
@@ -19,28 +19,28 @@
 
 ## #2.2 Not Found Routes
 
-**Not Found**
+**Not Found**  
 not-found.tsx은 일치하지 않는 전역 URL을 처리한다.  
 `https://nextjs.org/docs/app/api-reference/file-conventions/not-found`
 
-**usePathname**
+**usePathname**  
 usePathname은 현재 URL의 pathname을 읽을 수 있게 해주는 클라이언트 컴포넌트 훅이다.  
 `https://nextjs.org/docs/app/api-reference/functions/use-pathname`
 
-**React client hook in Server Component 오류**
+**React client hook in Server Component 오류**  
 서버 컴포넌트에서 React 클라이언트 훅을 사용하고 있을 때 발생하는 오류로 'use client' 를 추가해 클라이언트 컴포넌트로 바꿔줘야 함  
 `https://nextjs.org/docs/messages/react-client-hook-in-server-component`
 
 ## #2.3 SSR vs CSR
 
-**렌더링이란?**
+**렌더링이란?**  
 NextJS가 리액트 컴포넌트를 브라우저가 이해할 수 있는 html로 변환하는 작업
 
-**CSR**
+**CSR**  
 모든 렌더링이 클라이언트 측에서 발생  
 클라이언트는 자바스크립트를 로드하고, 자바스크립트가 UI를 빌드함
 
-**SSR**
+**SSR**  
 NextJS로 웹 사이트를 빌드할 때, \*\*클라이언트 컴포넌트든, 서버 컴포넌트든, use client든 ${\textsf{\color{green}기본적으로 SSR을 사용함}}$
 
 **Nextjs에서 ${\textsf{\color{green}모든 컴포넌트(클라이언트 컴포넌트, 서버 컴포넌트, use client 등등)와 페이지들은 먼저 서버에서 렌더됨}}$**
@@ -78,5 +78,44 @@ ${\textsf{\color{#4174D9}__`"use client"`는 오직 클라이언트에서만 렌
 **예를들면:**  
 무언가에 `useState`를 하려 하는데 `use client`하는 것을 까먹었다. 그런 경우 프레임워크가 에러를 발생시켜준다.
 
-> 만약 해당 컴포넌트가 클라이언트에 딱 한 번만 렌더되고 다시는 렌더될 일이 없다면 사용할 필요는 없다.  
-> 사용자에 받아야 할 js 코드의 양이 줄어들어 페이지 로딩 속도가 빨라지기 때문이다.
+> **만약 해당 컴포넌트가 클라이언트에 딱 한 번만 렌더되고 다시는 렌더될 일이 없다면 사용할 필요는 없다.  
+> 사용자에 받아야 할 js 코드의 양이 줄어들어 페이지 로딩 속도가 빨라지기 때문이다.**
+
+## #2.6 요약
+
+- Nextjs에서는 모든 컴포넌트는 서버에서 먼저 pre render됨 (클라이언트, 서버 컴포넌트 모두 동일)
+- ‘use client’ 명령어를 가진 컴포넌트는 hydrate 됨 (클라이언트에서도 렌더됨)
+- hydrate란? HTML을 인터랙티브한 리액트 컴포넌트로 바꾸는 것
+  - 이 방식의 장점은 사용자에 받아야 할 js 코드의 양이 줄어들어든다는 것이다.
+  - 이전 버전까지의 넥스트js는 모든 컴포넌트가 hydrate 되었다.
+
+### 의문1: 서버 컴포넌트 안에 클라이언트 컴포넌트를 가질 수 있을까?
+
+가능하다.  
+**`use client`를 사용하면 모든 children이 클라이언트 컴포넌트가 될 것이다.**  
+**그 반대의 경우는 안 돤다.**
+
+[**지원되는 패턴: 서버 컴포넌트를 클라이언트 컴포넌트에 props로 전달**](https://nextjs.org/docs/app/building-your-application/rendering/composition-patterns#supported-pattern-passing-server-components-to-client-components-as-props)  
+서버 컴포넌트를 클라이언트 컴포넌트에 prop으로 전달할 수 있습니다.  
+일반적인 패턴은 React children prop을 사용하여 클라이언트 컴포넌트에 "slot"을 만드는 것입니다.
+
+[**지원되지 않는 패턴: 서버 컴포넌트를 클라이언트 컴포넌트로 가져오기** ](https://nextjs.org/docs/app/building-your-application/rendering/composition-patterns#unsupported-pattern-importing-server-components-into-client-components)  
+서버 컴포넌트를 클라이언트 컴포넌트로 import 할 수 없습니다.
+
+**응용 예시:**
+
+```javascript
+import Navigation from "@/components/navigation";
+
+export default function AboutKr() {
+  //이 자리에서 api 키를 넣어서 데이터 패칭
+  return (
+    <div className="">
+      <Navigation />
+      <span>AboutKr</span>
+    </div>
+  );
+}
+```
+
+jsx 코드들은 서버에서만 실행돼서 여기서 api 키를 사용해 api 패칭을 해도 클라이언트로 절대 가지 않기 때문에 보안을 신경쓰지 않아도 된다.
