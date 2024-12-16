@@ -1,6 +1,6 @@
 export default function AboutKr() {
   return (
-    <div className="flex justify-center items-center h-screen">
+    <div className="">
       <span>AboutKr</span>
     </div>
   );

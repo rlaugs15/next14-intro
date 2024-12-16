@@ -1,7 +1,11 @@
+import Navigation from "@/components/navigation";
+
 export default function Home() {
   return (
-    <div className="flex justify-center items-center h-screen">
-      <span>hi</span>
-    </div>
+    <>
+      <div>
+        <span>hi</span>
+      </div>
+    </>
   );
 }

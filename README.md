@@ -1,4 +1,6 @@
-## Routes 정의
+# 라우팅
+
+## #2.1 Routes 정의
 
 #### Creating Routes
 
@@ -14,3 +16,17 @@
   가장 일반적인 것은 경로에 고유한 UI를 표시하는 페이지와 여러 경로에서 공유되는 UI를 표시하는 레이아웃이다.
 - 예를 들어 첫 번째 페이지를 만들려면 앱 디렉터리 내에 page.js 파일을 추가하고 React 컴포넌트를 내보낸다.
 - `ex) app/page.tsx`
+
+## #2.2 Not Found Routes
+
+**Not Found**
+not-found.tsx은 일치하지 않는 전역 URL을 처리한다.
+`https://nextjs.org/docs/app/api-reference/file-conventions/not-found`
+
+**usePathname**
+usePathname은 현재 URL의 pathname을 읽을 수 있게 해주는 클라이언트 컴포넌트 훅이다.
+`https://nextjs.org/docs/app/api-reference/functions/use-pathname`
+
+**React client hook in Server Component 오류**
+서버 컴포넌트에서 React 클라이언트 훅을 사용하고 있을 때 발생하는 오류로 'use client' 를 추가해 클라이언트 컴포넌트로 바꿔줘야 함
+`https://nextjs.org/docs/messages/react-client-hook-in-server-component`
