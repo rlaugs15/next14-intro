@@ -24,7 +24,7 @@ not-found.tsx은 일치하지 않는 전역 URL을 처리한다.
 `https://nextjs.org/docs/app/api-reference/file-conventions/not-found`
 
 **usePathname**  
-usePathname은 현재 URL의 pathname을 읽을 수 있게 해주는 클라이언트 컴포넌트 훅이다.  
+usePathname은 현재 URL의 pathname을 읽을 수 있게 해주는 ${\textsf{\color{#4174D9}클라이언트 컴포넌트 훅}}$이다.  
 `https://nextjs.org/docs/app/api-reference/functions/use-pathname`
 
 **React client hook in Server Component 오류**  
@@ -61,12 +61,12 @@ ${\textsf{\color{#4174D9}'use client' 사용 여부와 상관없음}}$
 
 ssr과 달리 하이드레이션 과정은 모든 컴포넌트에 대해 발생하지 않는다.
 
-클라이언트 컴포넌트를 사용하려면 파일 상단, import 위에 React ` "use client"`` 지시어를 추가하면 된다.  
- `"use client"`은 서버와 클라이언트 컴포넌트 모듈 간의 경계를 선언하는 데 사용된다.  
-즉, 파일에 `"use client"`를 정의하면 하위 컴포넌트를 포함하여 해당 파일로 가져온 다른 모든 모듈이 클라이언트 번들의 일부로 간주된다.
+클라이언트 컴포넌트를 사용하려면 파일 상단, import 위에 `use client` 지시어를 추가하면 된다.  
+ `use client`은 서버와 클라이언트 컴포넌트 모듈 간의 경계를 선언하는 데 사용된다.  
+즉, 파일에 `use client`를 정의하면 하위 컴포넌트를 포함하여 해당 파일로 가져온 다른 모든 모듈이 클라이언트 번들의 일부로 간주된다.
 
-${\textsf{\color{#4174D9}__`"use client"`는 오직 클라이언트에서만 렌더된다는 것을 의미하지 않는다.  
-백엔드에서 렌더되고 프론트에서 하이드레이트됨을 의미한다.__}}$  
+${\textsf{\color{#4174D9}`use client`는 오직 클라이언트에서만 렌더된다는 것을 의미하지 않는다.  
+백엔드에서 렌더되고 프론트에서 하이드레이트됨을 의미한다.}}
 개인적으로 `use hydrate`로 이름지었으면 더 좋았을 것이다.
 
 'use client'를 사용하지 않은 컴포넌트는 모두 서버 컴포넌트가 될 것이다.
@@ -119,3 +119,75 @@ export default function AboutKr() {
 ```
 
 jsx 코드들은 서버에서만 실행돼서 여기서 api 키를 사용해 api 패칭을 해도 클라이언트로 절대 가지 않기 때문에 보안을 신경쓰지 않아도 된다.
+
+## #2.7 Layouts
+
+어플리케이션을 빌드할 때 재사용하는 요소(element)들이 있기 때문이다.  
+예를 들면 모든 페이지에 동일한 네비게이션 바를 적용하고 싶은 경우가 있겠다.
+
+### 어떻게 작동하나?
+
+**예시: about-kr 페이지로 이동**  
+넥스트js는 바로 AboutKr 컴포넌트로 가서 구성요소를 렌더링하지 않는다.
+
+1. 레이아웃 컴포넌트(파일)로 이동해서 export default된 컴포넌트(이름 무관)를 렌더링
+
+```typescript
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="en">
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
+        <Navigation />
+        {children}
+      </body>
+    </html>
+  );
+}
+```
+
+2. 다음과 같이 렌더링한다.
+
+```javascript
+<Layout>
+  <AboutKr />
+</Layout>
+```
+
+### 다른 페이지에 추가로 레이아웃을 적용하고 싶을 때
+
+원하는 위치에 새로운 레이아웃을 만들 수가 있다.
+
+**예시: about-kr 페이지에 추가로 레이아웃을 적용하고 싶을 때**
+
+app/
+│
+├── about-kr/
+│ └── layout.tsx //이렇게 적용하면 된다.
+│ └── page.tsx
+├── layout.tsx
+├── not-found.tsx
+└── page.tsx
+
+${\textsf{\color{green}참고로 `about-kr/`의 레이아웃은 `about-kr/`의 하위 폴더(url)에도 전부 적용된다.}}$  
+${\textsf{\color{green}넥스트js는 url을 통해 폴더에 들어가서 레이아웃의 유무를 확인하고, 해당 폴더에 레이아웃이 없다면 상위 폴더로 거슬러 올라가 찾기 때문이다.}}$  
+`/about-kr/company/jobs/sales`
+
+**넥스트js는 다음과 같이 레이아웃을 적용한다.**
+
+```javascript
+<Layout>
+  <AboutUsLayout>
+    <SalesLayout>
+      <Sales />
+    </SalesLayout>
+  </AboutUsLayout>
+</Layout>
+```
+
+레이아웃은 서로 상쇄되지 않고 중첩된다.
