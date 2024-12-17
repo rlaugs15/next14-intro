@@ -20,3 +20,4 @@
 - [#3.1 Client Side](/docs/data-fetching.md/#31-client-side)
 - [#3.2 Server Side](/docs/data-fetching.md/#32-server-side)
 - [#3.3 Loading Components](/docs/data-fetching.md/#33-loading-components)
+- [#3.4 병렬 리퀘스트(Parallel Requests)](/docs/data-fetching.md/#34-병렬-리퀘스트parallel-requests)

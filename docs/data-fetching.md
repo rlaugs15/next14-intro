@@ -1,6 +1,6 @@
 ## #3.0 소개
 
-[간단한 영화 모킹 api](nomad-movies.nomadcoders.workers.dev)
+[간단한 영화 모킹 api](https://nomad-movies.nomadcoders.workers.dev/)
 
 - 사용예시: `https://nomad-movies.nomadcoders.workers.dev/movies`
 
@@ -110,3 +110,64 @@ export default function Loading() {
 ```
 
 데이터를 불러오는 10초 동안 로딩 컴포넌트가 보여진다.
+
+## #3.4 병렬 리퀘스트(Parallel Requests)
+
+```typescript
+import { Link } from "next/link";
+
+export const metadata = {
+  title: "Home",
+};
+
+export const API_URL = "https://.../movies";
+
+async function getMovies() {
+  const response = await fetch(API_URL);
+  const json = await response.json();
+  return json;
+}
+
+export default async function HomePage() {
+  const movies = await getMovies();
+  return (
+    <div>
+      {movies.map((movie) => (
+        <li key={movie.id}>
+          <a href={`movies/${movie.id}`}>{movie.title}</a>
+        </li>
+      ))}
+    </div>
+  );
+}
+```
+
+#### movies/[id] 페이지
+
+여러 api 불러올 때 병렬 처리 Promise.all 함수로 불러올 수 있다.  
+단점 : 모든 api가 불러와져야 화면을 보여준다.
+
+```typescript
+import { API_URL } from "../../../(home)/page";
+
+async function getMovie(id) {
+  await new Promise((resolve) => setTimeout(resolve, 1000)); //패칭시간 테스트용
+  const res = await fetch(`${API_URL}/${id}`);
+  return res.json();
+}
+
+async function getVideos(id) {
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+  const res = await fetch(`${API_URL}/${id}/videos`);
+  return res.json();
+}
+
+export default async function Movie({ params: { id } }) {
+  const [movie, videos] = await Promise.all([getMovie(id), getVideos(id)]);
+  return (
+    <div>
+      <h1>{movie.title}</h1>
+    </div>
+  );
+}
+```
