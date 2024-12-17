@@ -2,6 +2,9 @@
 
 ## #2.1 Routes 정의
 
+넥스트js는 중첩 경로에서 특정 동작을 가진 UI를 생성하기 위해 일련의 특수 파일을 제공한다.  
+[공식문서 참고](https://nextjs-ko.org/docs/app/building-your-application/routing#%ED%8C%8C%EC%9D%BC-%EA%B7%9C%EC%B9%99)
+
 #### Creating Routes
 
 - Next.js는 폴더를 사용하여 경로를 정의하는 파일 시스템 기반 라우터를 사용한다.
@@ -223,14 +226,22 @@ app/
 ```
 app/
 │
-├── (home) // 라우트 그룹 적용
-│ └── page.tsx // /app/page.tsx에서 이동
+├── (auth) // 라우트 그룹 적용
+│ └── forgot-password
+│   └──pages.tsx //경로: /forgot-password
+│ └── login
+│   └──pages.tsx //경로: /login
+│ └── join
+│   └──pages.tsx //경로: /join
 ├── about-kr/
 │ └── layout.tsx
 │ └── page.tsx
 ├── layout.tsx
 ├── not-found.tsx
+└── page.tsx
 ```
+
+만약 라우트 그룹을 사용하지 않았다면 URL이 /auth/login과 같이 됐을 것이다.
 
 - ${\textsf{\color{green}루트파일 중 모든 페이지에 영향을 주는 layout , not-found 파일은 밖에 있어야 한다.}}$
 - ( ) 로 명명된 폴더는 ${\textsf{\color{#4174D9}url에 영향을 주지 않는다}}$
@@ -259,9 +270,9 @@ export default function RootLayout({
 ```
 
 - 꼭 내보내야 하는 객체이고, 객체 안에 뭐가 있던지 페이지의 헤드(브라우저 탭) 부분에 표시된다.
-- **${\textsf{\color{green}메타데이터는 서버 컴포넌트에서만 있을 수 있다.}}$**
-- **${\textsf{\color{green}`page.tsx`나 `layout.tsx`만 메타데이터를 내보낼 수 있다.}}$**
-- 레이아웃이 중첩되는 방식과 마찬가지로 ${\textsf{\color{#4174D9}$메타데이터도 중첩 가능하지만 실제로는 **병합**이 된다.}}
+- ${\textsf{\color{green}메타데이터는 서버 컴포넌트에서만 있을 수 있다.}}$
+- ${\textsf{\color{green}`page.tsx`나 `layout.tsx`만 메타데이터를 내보낼 수 있다.}}$
+- 레이아웃이 중첩되는 방식과 마찬가지로 ${\textsf{\color{#4174D9}$메타데이터도 중첩 가능하지만 실제로는 병합이 된다.}}
   - `/`에 있으면 해당 메타데이터가, `/about-kr`에 있으면 해당 메타데이터가 적용된다.
 
 #### 메타데이터 템플릿

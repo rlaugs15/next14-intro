@@ -74,3 +74,39 @@ export default async function Home() {
 ```javascript
 const ComponentName = async () => {};
 ```
+
+## #3.3 Loading Components
+
+로딩화면을 보기 위해 10초 뒤에 데이터가 불러오도록 함  
+넥스트js는 중첩 경로에서 특정 동작을 가진 UI를 생성하기 위해 일련의 특수 파일을 제공하는데 loading도 그 중 하나이다.  
+[공식문서 참고](https://nextjs-ko.org/docs/app/building-your-application/routing#%ED%8C%8C%EC%9D%BC-%EA%B7%9C%EC%B9%99)
+
+```typescript
+export const metadata = {
+  title: "Home",
+};
+
+const URL = "https://.../movies";
+
+async function getMovies() {
+  await new Promise((resolve) => setTimeout(resolve, 10000));
+  const res = await fetch(URL);
+  const json = await res.json();
+  return json;
+}
+
+export default async function Home() {
+  const movies = await getMovies();
+  return <div>{JSON.stringify(movies)}</div>;
+}
+```
+
+#### 로딩 컴포넌트
+
+```typescript
+export default function Loading() {
+  return <h2>Loading...</h2>;
+}
+```
+
+데이터를 불러오는 10초 동안 로딩 컴포넌트가 보여진다.
