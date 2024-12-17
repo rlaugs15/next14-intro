@@ -21,3 +21,4 @@
 - [#3.2 Server Side](/docs/data-fetching.md/#32-server-side)
 - [#3.3 Loading Components](/docs/data-fetching.md/#33-loading-components)
 - [#3.4 병렬 리퀘스트(Parallel Requests)](/docs/data-fetching.md/#34-병렬-리퀘스트parallel-requests)
+- [#3.5 Suspense](/docs/data-fetching.md/#35-suspense)

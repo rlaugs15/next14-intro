@@ -113,6 +113,8 @@ export default function Loading() {
 
 ## #3.4 병렬 리퀘스트(Parallel Requests)
 
+홈 화면에서 id를 movies/[id]에 보내주고, id를 이용해 2개의 api 응답을 동시에 받을 것이다.
+
 ```typescript
 import { Link } from "next/link";
 
@@ -167,6 +169,85 @@ export default async function Movie({ params: { id } }) {
   return (
     <div>
       <h1>{movie.title}</h1>
+    </div>
+  );
+}
+```
+
+## #3.5 Suspense
+
+하나의 컴포넌트에 두 api를 동시에 불러올 때 준비가 먼저 끝난 거는 먼저 보여준다.
+
+- 병렬적으로 2가지를 동시에 fetch할 수 있는데 하지만 하나의 요청이 완료되면 즉시 component가 render 된다.
+- 각각 api를 불러오는 컴포넌트로 만들어 개별적으로 기다리게 한다.
+
+Suspense 가 데이터를 fetch 하기 위해 안의 컴포넌트를 await한다.  
+Suspense 의 fallback 컴포넌트가 await 되는 동안 (fetch 중에)표시할 메세지를 render할 수 있게 해준다.  
+${\textsf{\color{green}여기서 이제 데이터 패치를 하지 않기 때문에 ( 각 컴포넌트에서 데이터 패치 ) 형제 페이지인 loading.tsx는 활동하지 않음}}$
+
+- Page 단위 로딩 => loading.tsx
+- 서버 컴포넌트 단위 로딩 => Suspense
+
+```typescript
+//movies/[id]
+import { Suspense } from "react";
+import MovieInfo from "../../../../components/movie-info";
+import MovieVideo from "../../../../components/movie-videos";
+
+export default async function Movie({ params: { id } : {
+  params: { id: number };
+} }) {
+  return (
+    <div>
+      <Suspense fallback={<h1>Loading Info</h1>}>
+        <MovieInfo id={id} />
+      </Suspense>
+      <Suspense fallback={<h1>Loading video</h1>}>
+        <MovieVideo id={id} />
+      </Suspense>
+    </div>
+  );
+}
+```
+
+#### components/movie-info.tsx
+
+```typescript
+import { API_URL } from "../app/(home)/page";
+
+async function getMovie(id) {
+  await new Promise((resolve) => setTimeout(resolve, 3000));
+  const res = await fetch(`${API_URL}/${id}`);
+  return res.json();
+}
+export default async function MovieInfo({ id }: { id: string }) {
+  const movie = await getMovie(id);
+
+  return (
+    <div>
+      <h6>{JSON.stringify(movie)}</h6>
+    </div>
+  );
+}
+```
+
+#### components/movie-videos.tsx
+
+```typescript
+import { API_URL } from "../app/(home)/page";
+
+async function getVideos(id) {
+  await new Promise((resolve) => setTimeout(resolve, 2000));
+  const res = await fetch(`${API_URL}/${id}/videos`);
+  return res.json();
+}
+
+export default async function MovieVideo({ id }: { id: string }) {
+  const videos = await getVideos(id);
+
+  return (
+    <div>
+      <h6>{JSON.stringify(videos)}</h6>
     </div>
   );
 }
