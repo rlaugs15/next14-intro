@@ -1,27 +1,17 @@
-"use client";
+const URL = "https://nomad-movies.nomadcoders.workers.dev/movies";
 
-import { useEffect, useState } from "react";
+async function getMovies() {
+  await new Promise((res) => setTimeout(res, 5000)); //5초 로딩하는 간단한 트릭
+  const res = await fetch(URL);
+  const json = await res.json();
+  return json;
+}
 
-export default function Home() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [movies, steMovies] = useState([]);
-  const getMovies = async () => {
-    const response = await fetch(
-      "https://nomad-movies.nomadcoders.workers.dev/movies"
-    );
-    const json = await response.json();
-    steMovies(json);
-    setIsLoading(false);
-  };
-
-  console.log(movies);
-
-  useEffect(() => {
-    getMovies();
-  }, []);
+export default async function Home() {
+  const movies = await getMovies();
   return (
     <>
-      <div>{isLoading ? "loading..." : JSON.stringify(movies)}</div>
+      <div>{JSON.stringify(movies)}</div>
     </>
   );
 }
