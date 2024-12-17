@@ -22,3 +22,5 @@
 - [#3.3 Loading Components](/docs/data-fetching.md/#33-loading-components)
 - [#3.4 병렬 리퀘스트(Parallel Requests)](/docs/data-fetching.md/#34-병렬-리퀘스트parallel-requests)
 - [#3.5 Suspense](/docs/data-fetching.md/#35-suspense)
+- [#3.6 요약](/docs/data-fetching.md/#36-요약)
+- [#3.7 Error Handling](/docs/data-fetching.md/#37-error-handling)

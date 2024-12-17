@@ -259,3 +259,20 @@ export default async function MovieVideo({ id }: { id: string }) {
 - **로딩 UI:** loading.tsx(전체), Suspense(부분).
 - **병렬 처리:** Promise.all로 동시 호출.
 - **독립적 데이터 렌더링:** Suspense를 통해 유연하게 처리.
+
+## #3.7 Error Handling
+
+에러가 발생할 경우(ex, 데이터 패치 오류) 보여줄 페이지  
+movies/[id] 폴더에 error.jsx 파일 생성 ⇒ 해당하는 페이지 옆에 만들어야 한다.  
+${\textsf{\color{green}error 컴포넌트에는 "use client" 넣어야 한다.}}$
+
+```typescript
+"use client";
+export default function Error() {
+  return (
+    <div>
+      <h1>Error</h1>
+    </div>
+  );
+}
+```
