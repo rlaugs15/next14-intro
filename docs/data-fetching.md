@@ -46,7 +46,7 @@ fetch된 api를 서버 컴포넌트가 자동으로 캐싱해준다.
 
 **export default async 여야 하는 이유**
 
-- next.js 가 이 컴포넌트에서 await해야하기 때문이다.
+- next.js 가 이 컴포넌트에서 await해야하기 때문이다.(Suspense 등)
 - 단점: 데이터가 도착하기 전에는 사용자가 화면을 볼 수 없음
 
 ```typescript
@@ -178,12 +178,12 @@ export default async function Movie({ params: { id } }) {
 
 하나의 컴포넌트에 두 api를 동시에 불러올 때 준비가 먼저 끝난 거는 먼저 보여준다.
 
-- 병렬적으로 2가지를 동시에 fetch할 수 있는데 하지만 하나의 요청이 완료되면 즉시 component가 render 된다.
+- 병렬적으로 2가지(혹은 그 이상)를 동시에 fetch할 수 있고 먼저 완료되는 순서로 render된다.
 - 각각 api를 불러오는 컴포넌트로 만들어 개별적으로 기다리게 한다.
 
 Suspense 가 데이터를 fetch 하기 위해 안의 컴포넌트를 await한다.  
 Suspense 의 fallback 컴포넌트가 await 되는 동안 (fetch 중에)표시할 메세지를 render할 수 있게 해준다.  
-${\textsf{\color{green}여기서 이제 데이터 패치를 하지 않기 때문에 ( 각 컴포넌트에서 데이터 패치 ) 형제 페이지인 loading.tsx는 활동하지 않음}}$
+${\textsf{\color{green}Movie 컴포넌트에서 이제 직접 데이터 패치를 하지 않기 때문에 형제 페이지인 loading.tsx는 활동하지 않음}}$
 
 - Page 단위 로딩 => loading.tsx
 - 서버 컴포넌트 단위 로딩 => Suspense
@@ -252,3 +252,10 @@ export default async function MovieVideo({ id }: { id: string }) {
   );
 }
 ```
+
+## #3.6 요약
+
+- **데이터 패칭:** 클라이언트 / 서버에서 모두 가능.
+- **로딩 UI:** loading.tsx(전체), Suspense(부분).
+- **병렬 처리:** Promise.all로 동시 호출.
+- **독립적 데이터 렌더링:** Suspense를 통해 유연하게 처리.
