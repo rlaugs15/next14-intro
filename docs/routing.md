@@ -5,6 +5,8 @@
 넥스트js는 중첩 경로에서 특정 동작을 가진 UI를 생성하기 위해 일련의 특수 파일을 제공한다.  
 [공식문서 참고](https://nextjs-ko.org/docs/app/building-your-application/routing#%ED%8C%8C%EC%9D%BC-%EA%B7%9C%EC%B9%99)
 
+__세그먼트(Segment)란?:__ 경로(Route)를 구성하는 각 폴더 또는 파일을 의미
+
 #### Creating Routes
 
 - Next.js는 폴더를 사용하여 경로를 정의하는 파일 시스템 기반 라우터를 사용한다.
