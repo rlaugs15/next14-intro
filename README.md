@@ -17,3 +17,4 @@
 ## [#3 데이터 패칭](/docs/data-fetching.md)
 
 - [#3.0 소개(간단한 영화 api 첨가)](/docs/data-fetching.md/#30-소개)
+- [#3.1 Client Side](/docs/data-fetching.md/#31-client-side)
