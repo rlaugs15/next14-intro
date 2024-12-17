@@ -28,3 +28,6 @@
 ## [#4 배포](/docs/deployment.md)
 
 - [#4.0 소개](/docs/deployment.md/#40-소개)
+- #4.1 CSS Modules ~ #4.3 Movie Trailers
+  - 테일윈드로 알아서 스타일링
+- [#4.4 Dynamic Metadata](/docs/deployment.md/#44-dynamic-metadata)
