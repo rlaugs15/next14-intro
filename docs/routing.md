@@ -272,8 +272,8 @@ export default function RootLayout({
 
 - 꼭 내보내야 하는 객체이고, 객체 안에 뭐가 있던지 페이지의 헤드(브라우저 탭) 부분에 표시된다.
 - ${\textsf{\color{green}메타데이터는 서버 컴포넌트에서만 있을 수 있다.}}$
-- ${\textsf{\color{green}`page.tsx`나 `layout.tsx`만 메타데이터를 내보낼 수 있다.}}$
-- 레이아웃이 중첩되는 방식과 마찬가지로 ${\textsf{\color{#4174D9}$메타데이터도 중첩 가능하지만 실제로는 병합이 된다.}}
+- ${\textsf{\color{green}page.tsx나 layout.tsx만 메타데이터를 내보낼 수 있다.}}$
+- 레이아웃이 중첩되는 방식과 마찬가지로 ${\textsf{\color{#4174D9}메타데이터도 중첩 가능하지만 실제로는 병합이 된다.}}$
   - `/`에 있으면 해당 메타데이터가, `/about-kr`에 있으면 해당 메타데이터가 적용된다.
 
 #### 메타데이터 템플릿
