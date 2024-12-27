@@ -46,7 +46,7 @@ fetch된 api를 서버 컴포넌트가 자동으로 캐싱해준다.
 
 **export default async 여야 하는 이유**
 
-- next.js 가 이 컴포넌트에서 await해야하기 때문이다.(Suspense 등)
+- next.js 가 이 컴포넌트에서 await해야하기 때문이다.
 - 단점: 데이터가 도착하기 전에는 사용자가 화면을 볼 수 없음
 
 ```typescript
